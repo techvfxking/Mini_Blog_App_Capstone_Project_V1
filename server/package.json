@@ -13,7 +13,7 @@
     "API",
     "Blog"
   ],
-  "author": "Biplab Sharma",
+  "author": "Biplab Sharma <jobs.biplab.sharma@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "colors": "^1.4.0",
