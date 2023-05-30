@@ -23,6 +23,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const PORT = 8080 || process.env.PORT;
-app.listen(PORT, () => console.log(`Server has started on http://localhost:${PORT}`.bgMagenta));
+
+const server = app.listen(PORT, () => {
+    const address = server.address();
+    const host = address.address === '::' ? 'localhost' : address.address;
+    const port = address.port;
+
+    console.log(`Server is running at http://${host}:${port}`.bgMagenta);
+});
 
 app.use(defaultRouter);
