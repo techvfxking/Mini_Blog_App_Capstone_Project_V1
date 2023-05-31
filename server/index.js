@@ -4,6 +4,7 @@ import * as colors from "colors";
 import cors from "cors";
 import defaultRouter from "./routes/defaultRoute.js";
 import connectMongoDB from "./configs/connectMongoDB.js";
+import postsRouter from "./routes/postsRoute.js";
 
 dotenv.config();
 
@@ -33,3 +34,5 @@ const server = app.listen(PORT, () => {
 });
 
 app.use(defaultRouter);
+
+app.use('/api/v1/posts', postsRouter)
