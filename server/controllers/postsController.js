@@ -1,38 +1,26 @@
 import PostMessage from "../models/postMessageModel.js";
 
-
-
-
 const getPosts = async (req, res) => {
     try {
         const postMessages = await PostMessage.find();
         console.log(postMessages);
-        res.status(200).send({
-            message: postMessages,
-        });
+        res.status(200).json(postMessages);
     } catch (error) {
-        res.status(404).send({
-            message: error.message,
-        });
+        res.status(404).json(error.message);
     }
-    res.status(200).send("This works");
 }
 
 const createPost = async (req, res) => {
-    const post = req.body;
-    const newPost = new PostMessage(post);
+    const { creator, title, message, tags, selectedFile } = req.body;
+    const newPostMessage = new PostMessage({ title, message, creator, tags, selectedFile })
+    console.log(newPostMessage);
     try {
-        await newPost.save();
+        await newPostMessage.save();
 
-        res.status(201).send({
-            message: newPost,
-        });
+        res.status(201).json(newPostMessage);
     } catch (error) {
-        res.status(404).send({
-            message: error.message,
-        });
+        res.status(409).json({ message: error.message });
     }
-    res.status(200).send("Post Creation");
 }
 
 export { getPosts, createPost }

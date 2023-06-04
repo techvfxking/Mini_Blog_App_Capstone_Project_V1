@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from 'body-parser';
 import * as dotenv from "dotenv";
 import * as colors from "colors";
 import cors from "cors";
@@ -12,8 +13,8 @@ connectMongoDB();
 
 const app = express();
 
-app.use(express.json({ limit: '30mb', extended: true }))
-app.use(express.urlencoded({ limit: '30mb', extended: true }))
+app.use(bodyParser.json({ limit: '30mb', extended: true }))
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
 const corsOptions = {
     origin: process.env.CLIENT_URL,

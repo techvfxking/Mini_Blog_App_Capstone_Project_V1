@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import miniBlogHeaderLogo from "./assets/icons/mini_blog_header_icon.svg";
 import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { useDispatch } from "react-redux";
+import { getPosts } from "./actions/posts"
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Forms/Form";
 import useStyles from "./Styles";
@@ -8,6 +10,11 @@ import useStyles from "./Styles";
 const App = () => {
 
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch])
 
   return (
     <Container maxWidth='lg'>
@@ -15,7 +22,7 @@ const App = () => {
         <Typography className={classes.heading} variant='h2' align='center'>
           Mini Blog
         </Typography>
-        <img className={ classes.image} src={miniBlogHeaderLogo} alt='Mini Blog Logo' height='60' />
+        <img className={classes.image} src={miniBlogHeaderLogo} alt='Mini Blog Logo' height='60' />
       </AppBar>
       <Grow in>
         <Container>
