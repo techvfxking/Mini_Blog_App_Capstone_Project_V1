@@ -35,11 +35,14 @@ const Post = ({ post, setCurrentId }) => {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
+      <div className={classes.overlay2} name="edit">
         <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            setCurrentId(post._id);
+          }}
           style={{ color: 'white' }}
           size="small"
-          onClick={() => setCurrentId(post._id)}
         >
           <BorderColorIcon fontSize="medium" />
         </Button>

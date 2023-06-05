@@ -11,7 +11,7 @@ const Form = ({ currentId, setCurrentId }) => {
     title: '',
     message: '',
     tags: '',
-    selectedFile: '',
+    selectedFile: null,
   })
 
   const post = useSelector((state) =>
@@ -32,7 +32,7 @@ const Form = ({ currentId, setCurrentId }) => {
       title: '',
       message: '',
       tags: '',
-      selectedFile: '',
+      selectedFile: null,
     })
   }
   const handleSubmit = (e) => {
