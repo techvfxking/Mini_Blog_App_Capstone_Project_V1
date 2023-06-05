@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useStyles from './Styles'
 import { TextField, Button, Typography, Paper } from '@material-ui/core'
-import FileBase from "react-file-base64";
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
+import FileBase from 'react-file-base64'
+import { useDispatch, useSelector } from 'react-redux'
+import { createPost, updatePost } from '../../actions/posts'
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -13,10 +13,20 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: '',
     selectedFile: '',
   })
-  const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
+
+  useEffect(() => {
+    if (post) {
+      setPostData(post);
+    }
+  }, [post])
+  const classes = useStyles()
+  const dispatch = useDispatch()
   const clear = () => {
-    //setCurrentId(0);
+    setCurrentId(null);
     setPostData({
       creator: '',
       title: '',
@@ -26,8 +36,13 @@ const Form = ({ currentId, setCurrentId }) => {
     })
   }
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost(postData));
+    e.preventDefault()
+    if (currentId) {
+      dispatch(updatePost(currentId, postData))
+    } else {
+      dispatch(createPost(postData))
+    }
+    clear();
   }
 
   return (
@@ -38,7 +53,7 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Mini Blog</Typography>
+        <Typography variant="h6">{currentId ? "Editing" : "Creating"} a Mini Blog</Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -75,11 +90,21 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Tags (coma separated)"
           fullWidth
           value={postData.tags}
-          onChange={(e) =>
-            setPostData({ ...postData, tags: e.target.value.split(',') })
-          }
+          onChange={(e) => {
+            setPostData({
+              ...postData, tags: e.target.value.trim().split(',')
+            });
+          }}
         />
-        <div className={classes.fileInput}><FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} /></div>
+        <div className={classes.fileInput}>
+          <FileBase
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) =>
+              setPostData({ ...postData, selectedFile: base64 })
+            }
+          />
+        </div>
         <Button
           className={classes.buttonSubmit}
           variant="contained"

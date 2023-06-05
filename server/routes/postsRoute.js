@@ -1,13 +1,23 @@
 import express from 'express';
 import {
     getPosts,
-    createPost
+    createPost,
+    updatePost,
+    deletePost,
+    likePost
 } from '../controllers/postsController.js';
+import { getAllPosts, createSinglePost, updateSinglePost, deleteSinglePost, likeSinglePost } from '../utils/actionTypes.js';
 
 const postsRouter = express.Router();
 
-postsRouter.get("/getPosts", getPosts);
+postsRouter.get(getAllPosts, getPosts);
 
-postsRouter.post("/createPost", createPost);
+postsRouter.post(createSinglePost, createPost);
+
+postsRouter.patch(updateSinglePost, updatePost)
+
+postsRouter.delete(deleteSinglePost, deletePost);
+
+postsRouter.patch(likeSinglePost, likePost)
 
 export default postsRouter;
