@@ -36,4 +36,4 @@ const server = app.listen(PORT, () => {
 
 app.use(defaultRouter);
 
-app.use('/api/v1/posts', postsRouter)
+app.use(`${process.env.BASE_PATH}/posts`, postsRouter)

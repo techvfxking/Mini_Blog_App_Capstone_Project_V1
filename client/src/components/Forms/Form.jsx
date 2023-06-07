@@ -37,10 +37,15 @@ const Form = ({ currentId, setCurrentId }) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (postData === null) {
+      return;
+    }
+    const oldTags = postData.tags;
+    const updatedPostData = { ...postData, tags: oldTags.filter(tag => tag !== "") }
     if (currentId) {
-      dispatch(updatePost(currentId, postData))
+      dispatch(updatePost(currentId, updatedPostData))
     } else {
-      dispatch(createPost(postData))
+      dispatch(createPost(updatedPostData))
     }
     clear();
   }
@@ -49,7 +54,6 @@ const Form = ({ currentId, setCurrentId }) => {
     <Paper className={classes.paper}>
       <form
         autoComplete="off"
-        noValidate
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
@@ -58,6 +62,7 @@ const Form = ({ currentId, setCurrentId }) => {
           name="creator"
           variant="outlined"
           label="Creator"
+          required={true}
           fullWidth
           value={postData.creator}
           onChange={(e) =>
@@ -69,6 +74,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Title"
           fullWidth
+          required={true}
           value={postData.title}
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
@@ -78,6 +84,7 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Message"
           fullWidth
           minRows={4}
+          required={true}
           multiline
           value={postData.message}
           onChange={(e) =>
@@ -89,6 +96,7 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="Tags (coma separated)"
           fullWidth
+          required={true}
           value={postData.tags}
           onChange={(e) => {
             setPostData({

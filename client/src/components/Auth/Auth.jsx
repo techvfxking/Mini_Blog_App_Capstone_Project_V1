@@ -12,22 +12,38 @@ import Input from './Input';
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AUTH } from '../../constants/actionTypes';
+import { signin, signup } from '../../actions/auth.js';
 
 const Auth = () => {
-   
+
+    const initialState = {
+        firstName: '',
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    }
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isSignup, setIsSignUp] = useState(false);
+    const [formData, setFormData] = useState(initialState);
     const handleShowPassword = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     }
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isSignup) {
+            dispatch(signup(formData, navigate))
+        } else {
+            dispatch(signin(formData, navigate))
+        }
+        console.log(formData)
     }
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value === 'email' ? e.target.value.trim() : e.target.value })
     }
     const switchMode = () => {
         setIsSignUp((prevIsSignup) => !prevIsSignup);
@@ -37,12 +53,12 @@ const Auth = () => {
         const credentials = credentialResponse.credential;
         const response = jwtDecode(credentials);
         try {
-            dispatch({ type: 'AUTH', data: { response, credentials } });
+            dispatch({ type: AUTH, data: { response, credentials } });
             navigate('/');
         } catch (error) {
             console.log(error)
         }
-        
+
     }
 
     const googleFailure = (error) => {
@@ -73,7 +89,7 @@ const Auth = () => {
                             )
                         }
                         <Input name='email' label='Email Address' handleChange={handleChange} type='email' />
-                        <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
+                        <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword}/>
                         {
                             isSignup && (<Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password' />)
                         }
