@@ -6,6 +6,7 @@ import cors from "cors";
 import defaultRouter from "./routes/defaultRoute.js";
 import connectMongoDB from "./configs/connectMongoDB.js";
 import postsRouter from "./routes/postsRoute.js";
+import usersRouter from "./routes/usersRoute.js";
 
 dotenv.config();
 
@@ -31,9 +32,14 @@ const server = app.listen(PORT, () => {
     const host = address.address === '::' ? 'localhost' : address.address;
     const port = address.port;
 
-    console.log(`Server is running at http://${host}:${port}`.bgMagenta);
+    if (process.env.ENV === 'DEV')
+        console.log(`Server is running at http://${host}:${port}`.bgMagenta);
+    else
+        console.log(`Server is running at https://${host}:${port}`.bgMagenta);
 });
 
 app.use(defaultRouter);
 
 app.use(`${process.env.BASE_PATH}/posts`, postsRouter)
+
+app.use(`${process.env.BASE_PATH}/users`, usersRouter)
