@@ -16,17 +16,17 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
-  );
+  )
 
   useEffect(() => {
     if (post) {
-      setPostData(post);
+      setPostData(post)
     }
   }, [post])
   const classes = useStyles()
   const dispatch = useDispatch()
   const clear = () => {
-    setCurrentId(null);
+    setCurrentId(null)
     setPostData({
       creator: '',
       title: '',
@@ -38,16 +38,19 @@ const Form = ({ currentId, setCurrentId }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (postData === null) {
-      return;
+      return
     }
-    const oldTags = postData.tags;
-    const updatedPostData = { ...postData, tags: oldTags.filter(tag => tag !== "") }
+    const oldTags = postData.tags
+    const updatedPostData = {
+      ...postData,
+      tags: oldTags.filter((tag) => tag !== ''),
+    }
     if (currentId) {
       dispatch(updatePost(currentId, updatedPostData))
     } else {
       dispatch(createPost(updatedPostData))
     }
-    clear();
+    clear()
   }
 
   return (
@@ -57,7 +60,9 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">{currentId ? "Editing" : "Creating"} a Mini Blog</Typography>
+        <Typography variant="h6">
+          {currentId ? 'Editing' : 'Creating'} a Mini Blog
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -100,8 +105,9 @@ const Form = ({ currentId, setCurrentId }) => {
           value={postData.tags}
           onChange={(e) => {
             setPostData({
-              ...postData, tags: e.target.value.trim().split(',')
-            });
+              ...postData,
+              tags: e.target.value.trim().split(','),
+            })
           }}
         />
         <div className={classes.fileInput}>

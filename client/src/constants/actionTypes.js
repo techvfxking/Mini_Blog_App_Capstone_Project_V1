@@ -10,5 +10,5 @@ export const updateSinglePost = 'updatePost'
 export const deleteSinglePost = 'deletePost'
 export const likeSinglePost = 'likePost'
 
-export const AUTH = 'AUTH';
-export const LOGOUT = 'LOGOUT';
+export const AUTH = 'AUTH'
+export const LOGOUT = 'LOGOUT'

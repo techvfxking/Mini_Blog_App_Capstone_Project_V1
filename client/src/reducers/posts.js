@@ -1,4 +1,10 @@
-import { FETCH_ALL, CREATE, UPDATE, LIKE, DELETE } from "../constants/actionTypes"
+import {
+  FETCH_ALL,
+  CREATE,
+  UPDATE,
+  LIKE,
+  DELETE,
+} from '../constants/actionTypes'
 
 export default (posts = [], action) => {
   switch (action.type) {

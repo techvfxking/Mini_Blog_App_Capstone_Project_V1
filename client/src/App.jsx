@@ -9,12 +9,11 @@ import Auth from './components/Auth/Auth'
 const App = () => {
   return (
     <Router>
-
       <Container maxWidth="xl">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path='/auth' element={<Auth />} />
+          <Route path="/auth" element={<Auth />} />
         </Routes>
       </Container>
     </Router>
