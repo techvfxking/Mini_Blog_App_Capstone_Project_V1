@@ -24,7 +24,7 @@ const Navbar = () => {
     const token = user?.token
     if (token) {
       const decodedToken = jwtDecode(token)
-      
+
       if (decodedToken.exp * 1000 < new Date().getTime()) logout()
     }
 
@@ -39,7 +39,11 @@ const Navbar = () => {
           variant="h2"
           align="center"
           onClick={() => {
-            navigate(0)
+            if (location.pathname === '/auth') {
+              navigate('/')
+            } else {
+              navigate(0)
+            }
           }}
         >
           Mini Blog
@@ -50,7 +54,11 @@ const Navbar = () => {
           alt="Mini Blog Logo"
           height="60"
           onClick={() => {
-            navigate(0)
+            if (location.pathname === '/auth') {
+              navigate('/')
+            } else {
+              navigate(0)
+            }
           }}
         />
       </div>
