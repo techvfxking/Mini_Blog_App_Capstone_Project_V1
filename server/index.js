@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
 import * as colors from 'colors'
 import cors from 'cors'
+import { posts, users } from './utils/actionTypes.js'
 import defaultRouter from './routes/defaultRoute.js'
 import connectMongoDB from './configs/connectMongoDB.js'
 import postsRouter from './routes/postsRoute.js'
@@ -39,6 +40,6 @@ const server = app.listen(PORT, () => {
 
 app.use(defaultRouter)
 
-app.use(`${process.env.BASE_PATH}/posts`, postsRouter)
+app.use(`${process.env.BASE_PATH}${posts}`, postsRouter)
 
-app.use(`${process.env.BASE_PATH}/users`, usersRouter)
+app.use(`${process.env.BASE_PATH}${users}`, usersRouter)

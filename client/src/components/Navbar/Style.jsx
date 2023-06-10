@@ -19,10 +19,12 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
     fontSize: '2em',
     fontWeight: 300,
+    cursor: 'pointer',
   },
   image: {
     marginLeft: '10px',
     marginTop: '5px',
+    cursor: 'pointer',
   },
   toolbar: {
     display: 'flex',

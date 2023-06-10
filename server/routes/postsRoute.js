@@ -14,16 +14,18 @@ import {
   likeSinglePost,
 } from '../utils/actionTypes.js'
 
+import auth from './../middleware/auth.js'
+
 const postsRouter = express.Router()
 
 postsRouter.get(getAllPosts, getPosts)
 
-postsRouter.post(createSinglePost, createPost)
+postsRouter.post(createSinglePost, auth, createPost)
 
-postsRouter.patch(updateSinglePost, updatePost)
+postsRouter.patch(updateSinglePost, auth, updatePost)
 
-postsRouter.delete(deleteSinglePost, deletePost)
+postsRouter.delete(deleteSinglePost, auth, deletePost)
 
-postsRouter.patch(likeSinglePost, likePost)
+postsRouter.patch(likeSinglePost, auth, likePost)
 
 export default postsRouter

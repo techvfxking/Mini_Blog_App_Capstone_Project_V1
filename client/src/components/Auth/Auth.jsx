@@ -58,19 +58,18 @@ const Auth = () => {
     setShowPassword(false)
   }
   const googleSuccess = (credentialResponse) => {
-    const credentials = credentialResponse.credential
-    const response = jwtDecode(credentials)
+    const token = credentialResponse.credential
+    const result = jwtDecode(token)
     try {
-      dispatch({ type: AUTH, data: { response, credentials } })
+      dispatch({ type: AUTH, data: { result, token } })
       navigate('/')
     } catch (error) {
       console.log(error)
     }
   }
 
-  const googleFailure = (error) => {
-    console.log('Error')
-    console.log(error)
+  const googleFailure = () => {
+    alert('Google Sign In was unsuccessful. Try again later')
   }
 
   return (

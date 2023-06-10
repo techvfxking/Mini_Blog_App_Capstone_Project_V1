@@ -6,3 +6,6 @@ export const likeSinglePost = '/likePost/:id'
 
 export const signIn = '/signin'
 export const signUp = '/signup'
+
+export const posts = '/posts'
+export const users = '/users'

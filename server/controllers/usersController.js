@@ -17,7 +17,7 @@ const signin = async (req, res) => {
         const token = jwt.sign(
           { email: existingUser.email, id: existingUser._id },
           process.env.JWT_SECRET,
-          { expiresIn: '1h' }
+          { expiresIn: process.env.TOKEN_TIMEOUT }
         )
         res.status(200).json({ result: existingUser, token })
       } else {
@@ -37,7 +37,7 @@ const signup = async (req, res) => {
     const existingUser = await Users.findOne({ email })
     if (!existingUser) {
       if (password === confirmPassword) {
-        const hashedPassword = await bcrypt.hash(password, 12)
+        const hashedPassword = await bcrypt.hash(password, 6)
         const result = await Users.create({
           email,
           password: hashedPassword,
@@ -46,7 +46,7 @@ const signup = async (req, res) => {
         const token = jwt.sign(
           { email: result.email, id: result._id },
           process.env.JWT_SECRET,
-          { expiresIn: '1h' }
+          { expiresIn: process.env.TOKEN_TIMEOUT }
         )
         res.status(200).json({ result, token })
       } else {

@@ -7,7 +7,6 @@ import { createPost, updatePost } from '../../actions/posts'
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: '',
     title: '',
     message: '',
     tags: '',
@@ -23,12 +22,12 @@ const Form = ({ currentId, setCurrentId }) => {
       setPostData(post)
     }
   }, [post])
-  const classes = useStyles()
-  const dispatch = useDispatch()
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem('profile'))
   const clear = () => {
     setCurrentId(null)
     setPostData({
-      creator: '',
       title: '',
       message: '',
       tags: '',
@@ -46,11 +45,25 @@ const Form = ({ currentId, setCurrentId }) => {
       tags: oldTags.filter((tag) => tag !== ''),
     }
     if (currentId) {
-      dispatch(updatePost(currentId, updatedPostData))
+      dispatch(
+        updatePost(currentId, { ...updatedPostData, name: user?.result.name })
+      )
     } else {
-      dispatch(createPost(updatedPostData))
+      dispatch(createPost({...updatedPostData, name: user?.result.name}))
     }
     clear()
+  }
+  
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h6' align='center'>
+          Please Sign In or Sign Up to continue<br />
+          
+        </Typography>
+      </Paper>
+    )
+    
   }
 
   return (
@@ -63,17 +76,6 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? 'Editing' : 'Creating'} a Mini Blog
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          required={true}
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
         <TextField
           name="title"
           variant="outlined"

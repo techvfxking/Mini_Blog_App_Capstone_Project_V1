@@ -11,14 +11,8 @@ const getPosts = async (req, res) => {
 }
 
 const createPost = async (req, res) => {
-  let { creator, title, message, tags, selectedFile } = req.body
-  const newPostMessage = new PostMessage({
-    title,
-    message,
-    creator,
-    tags,
-    selectedFile,
-  })
+  let post = req.body
+  const newPostMessage = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() })
   try {
     await newPostMessage.save()
     res.status(201).json(newPostMessage)
@@ -58,16 +52,24 @@ const deletePost = async (req, res) => {
 
 const likePost = async (req, res) => {
   const { id: _id } = req.params
+
+  if (!req.userId) return res.json({ message: 'Unauthenticated' })
+
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     res.status(404).json('No Blog posts found with this Id: ' + _id)
   }
 
   const post = await PostMessage.findById(_id)
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    _id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  )
+
+  const index = await post.likes.findIndex((Id) => Id === String(req.userId))
+  if (index === -1) {
+    post.likes.push(req.userId)
+  } else {
+    post.likes = post.likes.filter((Id) => Id !== String(req.userId))
+  }
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+    new: true,
+  })
 
   res.status(201).json(updatedPost)
 }
