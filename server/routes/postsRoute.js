@@ -6,6 +6,7 @@ import {
   deletePost,
   likePost,
   getPostsBySearch,
+  getPost,
 } from '../controllers/postsController.js'
 import {
   getAllPosts,
@@ -19,6 +20,7 @@ import auth from './../middleware/auth.js'
 
 const postsRouter = express.Router()
 
+postsRouter.get('/getPost/:id', getPost)
 postsRouter.get('/search', getPostsBySearch)
 postsRouter.get(getAllPosts, getPosts)
 

@@ -11,4 +11,8 @@ export default makeStyles((theme) => ({
   actionDiv: {
     textAlign: 'center',
   },
+  paper: {
+    padding: theme.spacing(2),
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
+  },
 }))

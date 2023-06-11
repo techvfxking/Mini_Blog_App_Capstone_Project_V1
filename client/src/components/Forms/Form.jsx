@@ -4,8 +4,10 @@ import { TextField, Button, Typography, Paper } from '@material-ui/core'
 import FileBase from 'react-file-base64'
 import { useDispatch, useSelector } from 'react-redux'
 import { createPost, updatePost } from '../../actions/posts'
+import { useNavigate } from 'react-router-dom'
 
 const Form = ({ currentId, setCurrentId }) => {
+  const navigate = useNavigate();
   const [postData, setPostData] = useState({
     title: '',
     message: '',
@@ -14,7 +16,9 @@ const Form = ({ currentId, setCurrentId }) => {
   })
 
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId
+      ? state.posts.posts.find((message) => message._id === currentId)
+      : null
   )
 
   useEffect(() => {
@@ -46,12 +50,11 @@ const Form = ({ currentId, setCurrentId }) => {
     }
     if (currentId) {
       dispatch(
-        updatePost(currentId, { ...updatedPostData, name: user?.result.name })
-      )
+        updatePost(currentId, { ...updatedPostData, name: user?.result.name }))
     } else {
-      dispatch(createPost({...updatedPostData, name: user?.result.name}))
+      dispatch(createPost({ ...updatedPostData, name: user?.result.name }, navigate))
     }
-    clear()
+    clear();
   }
   
   if (!user?.result?.name) {
@@ -67,7 +70,7 @@ const Form = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         className={`${classes.root} ${classes.form}`}

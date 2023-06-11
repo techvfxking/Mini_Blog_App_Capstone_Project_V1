@@ -25,7 +25,8 @@ API.interceptors.request.use((req) => {
 const postsBaseEndPoint = '/posts'
 const userBaseEndPoint = '/users'
 
-export const fetchPosts = () => API.get(`${postsBaseEndPoint}/${getAllPosts}`)
+export const fetchPost = (id) => API.get(`${postsBaseEndPoint}/getPost/${id}`)
+export const fetchPosts = (page) => API.get(`${postsBaseEndPoint}/${getAllPosts}?page=${page}`);
 
 export const createPost = (newPost) =>
   API.post(`${postsBaseEndPoint}/${createSinglePost}`, newPost)

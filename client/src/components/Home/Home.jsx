@@ -17,15 +17,12 @@ const Home = () => {
   const dispatch = useDispatch()
   const query = useQuery();
   const navigate = useNavigate();
-  const page = query.get('page');
+  const page = query.get('page') || 1;
   const searchQuery = query.get('searchQuery');
   const classes = useStyles();
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
 
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [currentId, dispatch])
   const searchPost = () => {
     if (search.trim() || tags) {
       let searchValue = search || 'none';
@@ -90,14 +87,14 @@ const Home = () => {
                 onClick={searchPost}
                 className={classes.searchButton}
                 color="primary"
-                variant='contained'
+                variant="contained"
               >
                 Search
               </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper elevation={6}>
-              <PaginationComp />
+            <Paper elevation={6} className={classes.pagination}>
+              {!searchQuery && !tags.length && <PaginationComp page={page} />}
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={9}>
