@@ -17,9 +17,10 @@ export default makeStyles((theme) => ({
   heading: {
     color: theme.palette.primary.main,
     textDecoration: 'none',
-    fontSize: '2em',
+    fontSize: '45px',
     fontWeight: 300,
     cursor: 'pointer',
+    fontFamily: "'Luckiest Guy', cursive"
   },
   image: {
     marginLeft: '10px',

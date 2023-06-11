@@ -39,11 +39,7 @@ const Navbar = () => {
           variant="h2"
           align="center"
           onClick={() => {
-            if (location.pathname === '/auth') {
-              navigate('/')
-            } else {
-              navigate(0)
-            }
+            navigate('/')
           }}
         >
           Mini Blog
@@ -52,13 +48,9 @@ const Navbar = () => {
           className={classes.image}
           src={miniBlogHeaderLogo}
           alt="Mini Blog Logo"
-          height="60"
+          height="45"
           onClick={() => {
-            if (location.pathname === '/auth') {
-              navigate('/')
-            } else {
-              navigate(0)
-            }
+            navigate('/')
           }}
         />
       </div>

@@ -5,6 +5,7 @@ import {
   updatePost,
   deletePost,
   likePost,
+  getPostsBySearch,
 } from '../controllers/postsController.js'
 import {
   getAllPosts,
@@ -18,6 +19,7 @@ import auth from './../middleware/auth.js'
 
 const postsRouter = express.Router()
 
+postsRouter.get('/search', getPostsBySearch)
 postsRouter.get(getAllPosts, getPosts)
 
 postsRouter.post(createSinglePost, auth, createPost)
