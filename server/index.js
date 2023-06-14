@@ -19,7 +19,7 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 
 const corsOptions = {
-  origin: "*",
+  origin: '*',
   optionSuccessStatus: 200,
 }
 
@@ -39,6 +39,6 @@ const server = app.listen(PORT, () => {
 
 app.use(defaultRouter)
 
-app.use(`${process.env.BASE_PATH}${posts}`, postsRouter)
+app.use(`/api/v1${posts}`, postsRouter)
 
-app.use(`${process.env.BASE_PATH}${users}`, usersRouter)
+app.use(`/api/v1${users}`, usersRouter)
