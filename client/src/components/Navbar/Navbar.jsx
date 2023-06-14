@@ -39,7 +39,8 @@ const Navbar = () => {
           variant="h2"
           align="center"
           onClick={() => {
-            navigate('/')
+           const dotenv = import.meta.env
+           navigate(dotenv.VITE_VERCEL_HOME_PAGE || '/')
           }}
         >
           Mini Blog
@@ -50,7 +51,8 @@ const Navbar = () => {
           alt="Mini Blog Logo"
           height="45"
           onClick={() => {
-            navigate('/')
+           const dotenv = import.meta.env
+           navigate(dotenv.VITE_VERCEL_HOME_PAGE || '/')
           }}
         />
       </div>

@@ -62,7 +62,8 @@ const Auth = () => {
     const result = jwtDecode(token)
     try {
       dispatch({ type: AUTH, data: { result, token } })
-      navigate('/')
+      const dotenv = import.meta.env
+      navigate(dotenv.VITE_VERCEL_HOME_PAGE || '/')
     } catch (error) {
       console.log(error)
     }

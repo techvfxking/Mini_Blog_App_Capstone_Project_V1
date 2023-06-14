@@ -31,7 +31,8 @@ const Home = () => {
         `/posts/search?searchQuery=${searchValue}&tags=${tags.join(',')}`
       )
     } else {
-      navigate('/');
+     const dotenv = import.meta.env
+     navigate(dotenv.VITE_VERCEL_HOME_PAGE || '/')
     }
   }
   const handleAdd = (tag) => {
