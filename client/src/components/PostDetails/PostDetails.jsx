@@ -72,8 +72,9 @@ const PostDetails = () => {
           />
         </div>
       </div>
+      <Divider />
       {recommendedPosts.length && (
-        <div className={classes.section}>
+        <div className={classes.recomentPostSection}>
           <Typography gutterBottom variant="h5">
             You might also like
           </Typography>

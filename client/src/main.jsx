@@ -9,10 +9,11 @@ import './index.css'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const store = legacy_createStore(reducers, compose(applyMiddleware(thunk)))
+const dotenv = import.meta.env;
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <GoogleOAuthProvider clientId="308229861145-pr0969ib0r5s9g67hkn5mrna0gtkvphr.apps.googleusercontent.com">
+  <GoogleOAuthProvider clientId={dotenv.VITE_GOOGLE_AUTH_CLIENT_ID}>
     <Provider store={store}>
       <App />
     </Provider>

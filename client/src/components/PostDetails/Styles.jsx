@@ -20,6 +20,9 @@ export default makeStyles((theme) => ({
     margin: '10px',
     flex: 1,
   },
+  recomentPostSection: {
+    borderRadius: '20px',
+  },
   imageSection: {
     marginLeft: '20px',
     [theme.breakpoints.down('sm')]: {
@@ -27,9 +30,20 @@ export default makeStyles((theme) => ({
     },
   },
   recommendedPosts: {
-    display: 'flex',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)' /* Default layout with 3 columns */,
+    gridGap: '2px',
+    [theme.breakpoints.down('lg')]: {
+      gridTemplateColumns: 'repeat(5, 1fr)',
+    },
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: 'repeat(3, 1fr)',
+    },
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: 'repeat(1, 1fr)',
     },
   },
   loadingPaper: {
@@ -39,14 +53,5 @@ export default makeStyles((theme) => ({
     padding: '20px',
     borderRadius: '15px',
     height: '39vh',
-  },
-  commentsOuterContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  commentsInnerContainer: {
-    height: '200px',
-    overflowY: 'auto',
-    marginRight: '30px',
   },
 }))

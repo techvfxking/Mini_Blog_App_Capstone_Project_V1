@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import useStyles from './Styles'
 import { TextField, Button, Typography, Paper } from '@material-ui/core'
 import FileBase from 'react-file-base64'
@@ -8,26 +8,26 @@ import { useNavigate } from 'react-router-dom'
 
 const Form = ({ currentId, setCurrentId }) => {
   const navigate = useNavigate();
+  const imageRef = useRef();
   const [postData, setPostData] = useState({
     title: '',
     message: '',
     tags: '',
     selectedFile: null,
   })
-
+  const [image, setImage] = useState('')
   const post = useSelector((state) =>
     currentId
       ? state.posts.posts.find((message) => message._id === currentId)
       : null
   )
-
   useEffect(() => {
     if (post) {
       setPostData(post)
     }
   }, [post])
-  const classes = useStyles();
-  const dispatch = useDispatch();
+  const classes = useStyles()
+  const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem('profile'))
   const clear = () => {
     setCurrentId(null)
@@ -36,7 +36,9 @@ const Form = ({ currentId, setCurrentId }) => {
       message: '',
       tags: '',
       selectedFile: null,
-    })
+    });
+    setImage(null);
+    imageRef.current.value = null;
   }
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -47,26 +49,41 @@ const Form = ({ currentId, setCurrentId }) => {
     const updatedPostData = {
       ...postData,
       tags: oldTags.filter((tag) => tag !== ''),
+      selectedFile: image
     }
     if (currentId) {
       dispatch(
-        updatePost(currentId, { ...updatedPostData, name: user?.result.name }))
+        updatePost(currentId, { ...updatedPostData, name: user?.result.name })
+      )
     } else {
-      dispatch(createPost({ ...updatedPostData, name: user?.result.name }, navigate))
+      dispatch(
+        createPost({ ...updatedPostData, name: user?.result.name }, navigate)
+      )
     }
-    clear();
+    clear()
   }
-  
+
+  const onImageUpload = (e) => {
+    let reader = new FileReader()
+    const fileList = e.target.files
+    reader.readAsDataURL(fileList[0])
+    reader.onload = () => {
+      setImage(reader.result)
+    }
+    reader.onerror = (error) => {
+      console.log('Error: ' + error)
+    }
+  }
+
   if (!user?.result?.name) {
     return (
       <Paper className={classes.paper}>
-        <Typography variant='h6' align='center'>
-          Please Sign In or Sign Up to continue<br />
-          
+        <Typography variant="h6" align="center">
+          Please Sign In or Sign Up to continue
+          <br />
         </Typography>
       </Paper>
     )
-    
   }
 
   return (
@@ -115,15 +132,20 @@ const Form = ({ currentId, setCurrentId }) => {
             })
           }}
         />
+        {image === '' || image === null ? (
+          ''
+        ) : (
+          <img width={100} height={100} src={image} />
+        )}
         <div className={classes.fileInput}>
-          <FileBase
+          <input
+            accept=".jpg, .jpeg, .png, .gif"
             type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
+            onChange={onImageUpload}
+            ref={imageRef}
           />
         </div>
+
         <Button
           className={classes.buttonSubmit}
           variant="contained"

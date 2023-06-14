@@ -11,28 +11,32 @@ import Navbar from './components/Navbar/Navbar'
 import Home from './components/Home/Home'
 import Auth from './components/Auth/Auth'
 import PostDetails from './components/PostDetails/PostDetails'
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
   return (
-    <Router>
-      <Container maxWidth="xl">
-        <Navbar />
-        <Routes>
-          <Route path="/posts" element={<Home />} />
-          <Route path="/posts/search" element={<Home />} />
-          <Route path="/posts/:id" element={<PostDetails />} />
-          <Route path="/" element={<Navigate replace to="/posts" />} />
-          <Route
-            path="/auth"
-            element={
-              <ProtectedRoutes>
-                <Auth />
-              </ProtectedRoutes>
-            }
-          />
-        </Routes>
-      </Container>
-    </Router>
+    <>
+      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+      <Router>
+        <Container maxWidth="xl">
+          <Navbar />
+          <Routes>
+            <Route path="/posts" element={<Home />} />
+            <Route path="/posts/search" element={<Home />} />
+            <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/" element={<Navigate replace to="/posts" />} />
+            <Route
+              path="/auth"
+              element={
+                <ProtectedRoutes>
+                  <Auth />
+                </ProtectedRoutes>
+              }
+            />
+          </Routes>
+        </Container>
+      </Router>
+    </>
   )
 }
 
